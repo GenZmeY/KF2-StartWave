@@ -1,2 +1,104 @@
+[h1]WARNING![/h1]
+This mod is not whitelisted and will unrank your server. Any XP gained will not be saved.
+
+[h1]Disclaimer [/h1]
 This is the same as [url=https://steamcommunity.com/sharedfiles/filedetails/?id=1417081496]Pharrahnox's SetWave[/url], but with some fixes:
 - fixed Dosh parameter for Endless mode.
+
+[h1]Description:[/h1]
+A utility mod that allows users to specify the starting wave and the boss that will spawn. Additionally, users can jump between waves during the match with a console command (mutate setwave, see below).
+The purpose of this mod is to allow mappers to more efficiently test their maps for later waves or for the boss. It could also be used to skip early waves if you find them boring, or to test strategies against a specific boss.
+It is designed to be compatible with every mutator and wave-based gamemode, and to require little to no maintenance after game updates.
+
+[h1]Usage (single player):[/h1]
+1. Subscribe to this mutator;
+2. Start KF2; 
+3. Open console (`) and input:
+[code]open KF-BioticsLab?Game=KFGameContent.KFGameInfo_Endless?Difficulty=0?GameLength=0?Mutator=StartWave.StartWave?[/code]
+Change the name of the map and the parameters of the game to the ones you need.
+Add StartWave parameters that you need to this line (you can add any parameter from the config, the description is below).
+4. <Enter>.
+
+[h1]Usage (server):[/h1]
+[b]Note:[/b] If you don't understand what is written here, read the article [url=https://wiki.killingfloor2.com/index.php?title=Dedicated_Server_(Killing_Floor_2)][u]Dedicated Server (KF2 wiki)[/u][/url] before following these instructions.
+
+1. Open your PCServer-KFEngine.ini / LinuxServer-KFEngine.ini;
+2. Add the following string to the [b][OnlineSubsystemSteamworks.KFWorkshopSteamworks][/b] section:
+[code]ServerSubscribedWorkshopItems=<WORKSHOP_ID>[/code]
+3. Start the server and wait while the mutator is downloading;
+4. Stop the server;
+5. Add mutator to server start line: [b]?Mutator=StartWave.StartWave[/b]
+6. Add startwave launch parameters or use config (the description is below).
+7. Start the server 
+
+[h1]Mutator setup[/h1]
+You can use a config file if you do not want to specify parameters in the startup line:
+Create a file KFGame/Config/KFStartWave.ini and copy this text into it:
+[code]
+[StartWave.StartWave]
+// Any settings not specified in the launch command will use the values stored here. If you use the same
+// settings often, it is recommended to store those here and only change what you need in the launch command.
+
+// Whether mod-specific events should be logged.
+bUseDebug=true
+
+// Whether an 'initial' trader time should occur before the first wave.
+bStartWithTrader=false
+
+// The wave that the match should start on. It is clamped between wave 1 and the boss wave.
+StartWave=1
+
+// The duration of the 'initial' trader (before the first wave).
+InitialTraderTime=60
+
+// The duration of standard trader (between waves).
+TraderTime=60
+
+// The starting dosh of players.
+Dosh=250
+
+// The boss override index. For the default boss list, 0-Hans, 1-Patty, 2-King FP, 3-Abomination. Negative
+// values can be used to keep the boss spawn random.
+Boss=-1
+[/code]
+You can change the config as you need.
+
+[b]The setwave command[/b]
+To jump to any wave during the match, use the setwave command which has the definition: mutate setwave WaveNum bSkipTraderTime. Cheats must be enabled for this command to work.
+
+Example usages (all to be typed into the console):
+[code]
+mutate setwave 5 true  // jump to wave 5 with no trader time.
+mutate setwave 3 false // jump to wave 3 with trader time.
+mutate setwave 3       // identical to the above (the last parameter defaults to false).
+[/code]
+
+You can jump forwards or backwards between waves (e.g. from 5 -> 2 -> 8 -> 3, etc.)
+
+[h1]If not working[/h1]
+Older versions of Setwave have the same file names - this can cause conflicts if you subscribe to them. Therefore:
+1. Check your subscriptions. If you are subscribed to old versions of the mutator, cancel them.
+2. Clear the cache (the game doesn't clear it). It's here:
+[code]
+Client:
+C:\Users\<YOUR_USERNAME>\Documents\My Games\KillingFloor2\KFGame\Cache\
+
+Server:
+<KF2_DIR>/Binaries/Win64/steamapps/workshop/content/232090/
+<KF2_DIR>/KFGame/Cache/
+[/code]
+If it’s not a problem for you to download all subscriptions again, you can simply clear this folder(s). Your subscriptions are downloaded the next time you start the game/server.
+If you do not want to download the subscriptions again, delete only those folders that contain SetWave.u file.
+3. Try starting the game/server again.
+
+[h1]Bug reports[/h1]
+I didn't test the mod very much because I only needed to fix a bug with Dosh.
+If you find any other problems, please describe how to reproduce them. Maybe I can fix it.
+You can do it right here, but I'll be much happier if you do it [url=https://github.com/GenZmeY/KF2-StartWave/issues]in issues on github[/url] .
+
+[h1]Credits:[/h1]
+[url=https://steamcommunity.com/profiles/76561198021230296]Pharrahnox[/url] - creating a mutator;
+[url=https://steamcommunity.com/profiles/76561198001617867]GenZmeY[/url] - bugfixes.
+
+[h1]Sources:[/h1]
+[u]https://github.com/GenZmeY/KF2-StartWave[/u] [b](GNU GPLv3)[/b]

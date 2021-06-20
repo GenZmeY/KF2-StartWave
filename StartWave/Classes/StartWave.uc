@@ -295,6 +295,9 @@ function OverrideBoss()
 function OverrideTimer()
 {
 	local KFGameInfo_Survival KFGI_Surv;
+	local KFGameInfo_Endless KFGI_Endl;
+	local KFGameDifficulty_Endless KFGD_Endl;
+	local int i;
 	
 	//If we've overriden what we need to, don't call this timer again.
 	if(bOverridenDifficultySettings && bOverridenTraderDuration)
@@ -314,6 +317,19 @@ function OverrideTimer()
 		MyKFGI.DifficultyInfo.Hard.StartingDosh = Dosh;
 		MyKFGI.DifficultyInfo.Suicidal.StartingDosh = Dosh;
 		MyKFGI.DifficultyInfo.HellOnEarth.StartingDosh = Dosh;
+		
+		KFGI_Endl = KFGameInfo_Endless(MyKFGI);
+		if (KFGI_Endl != None)
+		{
+			KFGD_Endl = KFGameDifficulty_Endless(KFGI_Endl.DifficultyInfo);
+			if (KFGD_Endl != None)
+			{
+				for (i = 0; i < KFGD_Endl.CurrentDifficultyScaling.Difficulties.length; ++i)
+				{
+					KFGD_Endl.CurrentDifficultyScaling.Difficulties[i].StartingDosh = Dosh;
+				}
+			}
+		}
 		
 		`log("Starting dosh has been set to: "$Dosh$" dosh.", bUseDebug, 'StartWave');
 		
