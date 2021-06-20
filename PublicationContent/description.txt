@@ -1,0 +1,2 @@
+This is the same as [url=https://steamcommunity.com/sharedfiles/filedetails/?id=1417081496]Pharrahnox's SetWave[/url], but with some fixes:
+- fixed Dosh parameter for Endless mode.
