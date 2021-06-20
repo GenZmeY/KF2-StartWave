@@ -1,9 +1,9 @@
-[h1]WARNING![/h1]
+[h1]Warning[/h1]
 This mod is not whitelisted and will unrank your server. Any XP gained will not be saved.
 
 [h1]Disclaimer [/h1]
 This is the same as [url=https://steamcommunity.com/sharedfiles/filedetails/?id=1417081496]Pharrahnox's SetWave[/url], but with some fixes:
-- fixed Dosh parameter for Endless mode.
+- fixed starting Dosh for Endless mode.
 
 [h1]Description:[/h1]
 A utility mod that allows users to specify the starting wave and the boss that will spawn. Additionally, users can jump between waves during the match with a console command (mutate setwave, see below).
@@ -16,7 +16,7 @@ It is designed to be compatible with every mutator and wave-based gamemode, and 
 3. Open console (`) and input:
 [code]open KF-BioticsLab?Game=KFGameContent.KFGameInfo_Endless?Difficulty=0?GameLength=0?Mutator=StartWave.StartWave?[/code]
 Change the name of the map and the parameters of the game to the ones you need.
-Add StartWave parameters that you need to this line (you can add any parameter from the config, the description is below).
+Add StartWave parameters that you need to the end of the line (you can add any parameter from the config, the description is below).
 4. <Enter>.
 
 [h1]Usage (server):[/h1]
@@ -24,7 +24,7 @@ Add StartWave parameters that you need to this line (you can add any parameter f
 
 1. Open your PCServer-KFEngine.ini / LinuxServer-KFEngine.ini;
 2. Add the following string to the [b][OnlineSubsystemSteamworks.KFWorkshopSteamworks][/b] section:
-[code]ServerSubscribedWorkshopItems=<WORKSHOP_ID>[/code]
+[code]ServerSubscribedWorkshopItems=2521731447[/code]
 3. Start the server and wait while the mutator is downloading;
 4. Stop the server;
 5. Add mutator to server start line: [b]?Mutator=StartWave.StartWave[/b]
@@ -32,12 +32,13 @@ Add StartWave parameters that you need to this line (you can add any parameter f
 7. Start the server 
 
 [h1]Mutator setup[/h1]
-You can use a config file if you do not want to specify parameters in the startup line:
+You can use a config if you don't want to specify parameters in the startup line:
 Create a file KFGame/Config/KFStartWave.ini and copy this text into it:
 [code]
 [StartWave.StartWave]
-// Any settings not specified in the launch command will use the values stored here. If you use the same
-// settings often, it is recommended to store those here and only change what you need in the launch command.
+// Any settings not specified in the launch command will use the values stored here.
+// If you use the same settings often, it is recommended to store those here
+// and only change what you need in the launch command.
 
 // Whether mod-specific events should be logged.
 bUseDebug=true
@@ -57,8 +58,9 @@ TraderTime=60
 // The starting dosh of players.
 Dosh=250
 
-// The boss override index. For the default boss list, 0-Hans, 1-Patty, 2-King FP, 3-Abomination. Negative
-// values can be used to keep the boss spawn random.
+// The boss override index.
+// For the default boss list, 0-Hans, 1-Patty, 2-King FP, 3-Abomination.
+// Negative values can be used to keep the boss spawn random.
 Boss=-1
 [/code]
 You can change the config as you need.
@@ -95,10 +97,6 @@ If you do not want to download the subscriptions again, delete only those folder
 I didn't test the mod very much because I only needed to fix a bug with Dosh.
 If you find any other problems, please describe how to reproduce them. Maybe I can fix it.
 You can do it right here, but I'll be much happier if you do it [url=https://github.com/GenZmeY/KF2-StartWave/issues]in issues on github[/url] .
-
-[h1]Credits:[/h1]
-[url=https://steamcommunity.com/profiles/76561198021230296]Pharrahnox[/url] - creating a mutator;
-[url=https://steamcommunity.com/profiles/76561198001617867]GenZmeY[/url] - bugfixes.
 
 [h1]Sources:[/h1]
 [u]https://github.com/GenZmeY/KF2-StartWave[/u] [b](GNU GPLv3)[/b]

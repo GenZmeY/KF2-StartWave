@@ -1,14 +1,24 @@
 # KF2-StartWave
 
-[![Steam Workshop](https://img.shields.io/static/v1?message=workshop&logo=steam&labelColor=gray&color=blue&logoColor=white&label=steam%20)](https://steamcommunity.com/sharedfiles/filedetails/?id=<WORKSHOP_ID>)
-[![Steam Subscriptions](https://img.shields.io/steam/subscriptions/<WORKSHOP_ID>)](https://steamcommunity.com/sharedfiles/filedetails/?id=<WORKSHOP_ID>)
-[![Steam Favorites](https://img.shields.io/steam/favorites/<WORKSHOP_ID>)](https://steamcommunity.com/sharedfiles/filedetails/?id=<WORKSHOP_ID>)
-[![Steam Update Date](https://img.shields.io/steam/update-date/<WORKSHOP_ID>)](https://steamcommunity.com/sharedfiles/filedetails/?id=<WORKSHOP_ID>)
+[![Steam Workshop](https://img.shields.io/static/v1?message=workshop&logo=steam&labelColor=gray&color=blue&logoColor=white&label=steam%20)](https://steamcommunity.com/sharedfiles/filedetails/?id=2521731447)
+[![Steam Subscriptions](https://img.shields.io/steam/subscriptions/2521731447)](https://steamcommunity.com/sharedfiles/filedetails/?id=2521731447)
+[![Steam Favorites](https://img.shields.io/steam/favorites/2521731447)](https://steamcommunity.com/sharedfiles/filedetails/?id=2521731447)
+[![Steam Update Date](https://img.shields.io/steam/update-date/2521731447)](https://steamcommunity.com/sharedfiles/filedetails/?id=2521731447)
 [![GitHub tag (latest by date)](https://img.shields.io/github/v/tag/GenZmeY/KF2-StartWave)](https://github.com/GenZmeY/KF2-StartWave/tags)
 [![GitHub](https://img.shields.io/github/license/GenZmeY/KF2-StartWave)](LICENSE)
 
+# Description
+A utility mod that allows users to specify the starting wave and the boss that will spawn. Additionally, users can jump between waves during the match with a console command (mutate setwave, see below).
+The purpose of this mod is to allow mappers to more efficiently test their maps for later waves or for the boss. It could also be used to skip early waves if you find them boring, or to test strategies against a specific boss.
+It is designed to be compatible with every mutator and wave-based gamemode, and to require little to no maintenance after game updates.
+
+**This is the same as [Pharrahnox's SetWave](https://steamcommunity.com/sharedfiles/filedetails/?id=1417081496), but with some fixes:**
+- fixed starting Dosh for Endless mode.
+
 # Usage
-[See steam workshop page](https://steamcommunity.com/sharedfiles/filedetails/?id=<WORKSHOP_ID>)
+[See steam workshop page](https://steamcommunity.com/sharedfiles/filedetails/?id=2521731447)
+
+***
 
 **Note:** If you want to build/test/brew/publish a mutator without git-bash and/or scripts, follow [these instructions](https://tripwireinteractive.atlassian.net/wiki/spaces/KF2SW/pages/26247172/KF2+Code+Modding+How-to) instead of what is described here.
 
