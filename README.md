@@ -36,7 +36,7 @@ It is designed to be compatible with every mutator and wave-based gamemode, and 
 You can check your build using the `make.sh` script.  
 Open git-bash in the source folder and run the script:  
 `./make.sh --test`  
-On first launch, the script will create `testing.ini` file and launch the game with the settings from it (KF-Nuked map + ServerExtMut). Edit this file if you need to test the mutator with different parameters.
+On first launch, the script will create `testing.ini` file and launch the game with the settings from it. Edit this file if you need to test the mutator with different parameters.
 
 # Bug reports
 If you find a bug, go to the [issue page](https://github.com/GenZmeY/KF2-StartWave/issues) and check if there is a description of your bug. If not, create a new issue.  
