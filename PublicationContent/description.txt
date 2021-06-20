@@ -28,7 +28,7 @@ Add StartWave parameters that you need to the end of the line (you can add any p
 3. Start the server and wait while the mutator is downloading;
 4. Stop the server;
 5. Add mutator to server start line: [b]?Mutator=StartWave.StartWave[/b]
-6. Add startwave launch parameters or use config (the description is below).
+6. Add StartWave parameters or use config (the description is below).
 7. Start the server 
 
 [h1]Mutator setup[/h1]
@@ -78,7 +78,7 @@ mutate setwave 3       // identical to the above (the last parameter defaults to
 You can jump forwards or backwards between waves (e.g. from 5 -> 2 -> 8 -> 3, etc.)
 
 [h1]If not working[/h1]
-Older versions of Setwave have the same file names - this can cause conflicts if you subscribe to them. Therefore:
+Older versions of SetWave have the same file names - this can cause conflicts if you subscribe to them. Therefore:
 1. Check your subscriptions. If you are subscribed to old versions of the mutator, cancel them.
 2. Clear the cache (the game doesn't clear it). It's here:
 [code]
