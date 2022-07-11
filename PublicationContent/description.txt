@@ -1,5 +1,4 @@
-[h1]Warning[/h1]
-This mod is not whitelisted and will unrank your server. Any XP gained will not be saved.
+[img]https://img.shields.io/static/v1?logo=GitHub&labelColor=gray&color=blue&logoColor=white&label=&message=Open Source[/img] [img]https://img.shields.io/github/license/GenZmeY/KF2-StartWave[/img] [img]https://img.shields.io/steam/subscriptions/2521731447[/img] [img]https://img.shields.io/steam/favorites/2521731447[/img] [img]https://img.shields.io/steam/update-date/2521731447[/img] [url=https://steamcommunity.com/sharedfiles/filedetails/changelog/2521731447][img]https://img.shields.io/github/v/tag/GenZmeY/KF2-StartWave[/img][/url]
 
 [h1]Description:[/h1]
 This is the same as [url=https://steamcommunity.com/sharedfiles/filedetails/?id=1417081496]Pharrahnox's SetWave[/url], but with some fixes:
@@ -9,26 +8,31 @@ A utility mod that allows users to specify the starting wave and the boss that w
 The purpose of this mod is to allow mappers to more efficiently test their maps for later waves or for the boss. It could also be used to skip early waves if you find them boring, or to test strategies against a specific boss.
 It is designed to be compatible with every mutator and wave-based gamemode, and to require little to no maintenance after game updates.
 
+[h1]Whitelisted?[/h1]
+No. This mod is not whitelisted and will unrank your server. Any XP gained will not be saved.
+
 [h1]Usage (single player):[/h1]
-1. Subscribe to this mutator;
-2. Start KF2; 
-3. Open console (`) and input:
-[code]open KF-BioticsLab?Game=KFGameContent.KFGameInfo_Endless?Difficulty=0?GameLength=0?Mutator=StartWave.StartWave?[/code]
-Change the name of the map and the parameters of the game to the ones you need.
-Add StartWave parameters that you need to the end of the line (you can add any parameter from the config, the description is below).
-4. <Enter>.
+[olist]
+[*]Subscribe to this mutator;
+[*]Start KF2; 
+[*]Open console (`) and input:
+[b]open KF-BioticsLab?Game=KFGameContent.KFGameInfo_Endless?Difficulty=0?GameLength=0?Mutator=StartWave.StartWave?[/b]
+(replace the map and add the parameters you need)
+[*]<Enter>.
+[/olist]
 
-[h1]Usage (server):[/h1]
-[b]Note:[/b] If you don't understand what is written here, read the article [url=https://wiki.killingfloor2.com/index.php?title=Dedicated_Server_(Killing_Floor_2)][u]Dedicated Server (KF2 wiki)[/u][/url] before following these instructions.
-
-1. Open your PCServer-KFEngine.ini / LinuxServer-KFEngine.ini;
-2. Add the following string to the [b][OnlineSubsystemSteamworks.KFWorkshopSteamworks][/b] section:
-[code]ServerSubscribedWorkshopItems=2521731447[/code]
-3. Start the server and wait while the mutator is downloading;
-4. Stop the server;
-5. Add mutator to server start line: [b]?Mutator=StartWave.StartWave[/b]
-6. Add StartWave parameters or use config (the description is below).
-7. Start the server 
+[h1]Usage (server)[/h1]
+[b]Note:[/b] [i]If you don't understand what is written here, read the article [url=https://wiki.killingfloor2.com/index.php?title=Dedicated_Server_(Killing_Floor_2)][u]Dedicated Server (KF2 wiki)[/u][/url] before following these instructions.[/i]
+[olist]
+[*]Open your [b]PCServer-KFEngine.ini[/b] / [b]LinuxServer-KFEngine.ini[/b];
+[*]Find the [b][IpDrv.TcpNetDriver][/b] section and make sure that there is a line (add if not):
+[b]DownloadManagers=OnlineSubsystemSteamworks.SteamWorkshopDownload[/b]
+❗️ If there are several [b]DownloadManagers=[/b] then the line above should be the first ❗️
+[*]Add the following string to the [b][OnlineSubsystemSteamworks.KFWorkshopSteamworks][/b] section (create one if it doesn't exist):
+[b]ServerSubscribedWorkshopItems=2521731447[/b]
+[*]Start the server and wait while the mutator is downloading;
+[*]Add mutator to server start parameters: [b]?Mutator=StartWave.StartWave[/b] and restart the server.
+[/olist]
 
 [h1]Mutator setup[/h1]
 You can use a config if you don't want to specify parameters in the startup line:
@@ -97,5 +101,5 @@ I didn't test the mod very much because I only needed to fix a bug with Dosh.
 If you find any other problems, please describe how to reproduce them. Maybe I can fix it.
 You can do it right here, but I'll be much happier if you do it [url=https://github.com/GenZmeY/KF2-StartWave/issues]in issues on github[/url] .
 
-[h1]Sources:[/h1]
-[u]https://github.com/GenZmeY/KF2-StartWave[/u] [b](GNU GPLv3)[/b]
+[h1]Sources[/h1]
+[url=https://github.com/GenZmeY/KF2-StartWave]https://github.com/GenZmeY/KF2-StartWave[/url] [b](GNU GPLv3)[/b]
