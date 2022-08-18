@@ -12,7 +12,7 @@ A utility mod that allows users to specify the starting wave and the boss that w
 The purpose of this mod is to allow mappers to more efficiently test their maps for later waves or for the boss. It could also be used to skip early waves if you find them boring, or to test strategies against a specific boss.
 It is designed to be compatible with every mutator and wave-based gamemode, and to require little to no maintenance after game updates.
 
-**This is the same as [Pharrahnox's SetWave](https://steamcommunity.com/sharedfiles/filedetails/?id=1417081496), but with some fixes:**
+**This is the same as [Pharrahnox's StartWave](https://steamcommunity.com/sharedfiles/filedetails/?id=1417081496), but with some fixes:**
 - fixed starting Dosh for Endless mode.
 
 # Usage
