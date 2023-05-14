@@ -40,7 +40,7 @@ function InitMutator(string Options, out string ErrorMessage)
 {
 	//This needs to be called first since KFMutator.InitMutator sets the MyKFGI reference.
 	Super.InitMutator(Options, ErrorMessage);
-	
+
 	//Parse options entered via the launch command.
 	//We further restrict StartWave later when we know the maximum wave number for the selected game length.
 	StartWave = Max(class'GameInfo'.static.GetIntOption(Options, "StartWave", StartWave), 1);
@@ -51,7 +51,7 @@ function InitMutator(string Options, out string ErrorMessage)
 	Boss = class'GameInfo'.static.GetIntOption(Options, "Boss", Boss);
 	bStartWithTrader = GetBoolOption(Options, "bStartWithTrader", bStartWithTrader);
 	bUseDebug = GetBoolOption(Options, "bUseDebug", bUseDebug);
-	
+
 	//DEBUG
 	`log("StartWave: "$StartWave, bUseDebug, 'StartWave');
 	`log("InitialTraderTime: "$InitialTraderTime, bUseDebug, 'StartWave');
@@ -59,23 +59,23 @@ function InitMutator(string Options, out string ErrorMessage)
 	`log("Dosh: "$Dosh, bUseDebug, 'StartWave');
 	`log("Boss: "$Boss, bUseDebug, 'StartWave');
 	`log("bStartWithTrader: "$bStartWithTrader, bUseDebug, 'StartWave');
-	
+
 	bOverridenDifficultySettings = false;
 	bOverridenTraderDuration = false;
-	
+
 	SetTimer(0.1, false, nameof(OverrideTimer));
-	
+
 	//Override the boss with the boss corresponding to the specified boss index. -1 signifies random.
 	if(Boss != -1)
 	{
 		SetTimer(0.1, false, nameof(OverrideBoss));
 	}
-	
+
 	CheckForceInitialTrader();
-	
+
 	//We only care if this is the 'initial' trader time if we start with the trader active.
 	bInitialTrader = bStartWithTrader;
-	
+
 	//If we want to start with the trader active or alter the starting wave number.
 	if(bStartWithTrader || StartWave > 1)
 	{
@@ -83,7 +83,7 @@ function InitMutator(string Options, out string ErrorMessage)
 			bUseDebug, 'StartWave');
 		SetTimer(0.2, false, nameof(StartWaveTimer));
 	}
-	
+
 	//If we will need to alter TimeBetweenWaves for later activations of the trader.
 	if(bStartWithTrader && InitialTraderTime != TraderTime)
 	{
@@ -97,22 +97,22 @@ function InitMutator(string Options, out string ErrorMessage)
 function Mutate(string MutateString, PlayerController Sender)
 {
 	local array<string> CommandBreakdown;
-	
+
 	if(MutateString == "")
 	{
 		return;
 	}
-	
+
 	//Split the string on the space character.
 	ParseStringIntoArray(MutateString, CommandBreakdown, " ", true);
-	
+
 	//The CheatManager check is equivalent to checking if cheats are enabled for that player.
 	if(CommandBreakdown.Length > 1 && CommandBreakdown[0] == "setwave" && Sender.CheatManager != None &&
 		MyKFGI.GetLivingPlayerCount() > 0)
 	{
 		//The setwave command should be: mutate setwave WaveNum bSkipTraderTime
 		//where WaveNum is an integer (or byte) and bSkipTraderTime is a bool.
-		
+
 		if(CommandBreakdown.Length == 2)
 		{
 			SetWave(int(CommandBreakdown[1]), Sender);
@@ -122,7 +122,7 @@ function Mutate(string MutateString, PlayerController Sender)
 			SetWave(int(CommandBreakdown[1]), Sender, bool(CommandBreakdown[2]));
 		}
 	}
-	
+
 	Super.Mutate(MutateString, Sender);
 }
 
@@ -134,7 +134,7 @@ function SetWave(int NewWaveNum, PlayerController PC, optional bool bSkipTraderT
 		`log("SetWave: new wave num must be > 0.", true, 'StartWave');
 		return;
 	}
-	
+
 	if(KFGameInfo_Endless(MyKFGI) != None)
 	{
 		//Jump straight to the final wave if the specified wave number is higher than wave max.
@@ -151,22 +151,22 @@ function SetWave(int NewWaveNum, PlayerController PC, optional bool bSkipTraderT
 			NewWaveNum = KFGameInfo_Survival(MyKFGI).WaveMax+1;
 		}
 	}
-	
+
 	KFGameInfo_Survival(MyKFGI).WaveNum = NewWaveNum - 1;
-	
+
 	//Kill all zeds currently alive.
 	PC.ConsoleCommand("KillZeds");
-	
+
 	//Clear any current objectives.
 	MyKFGI.MyKFGRI.DeactivateObjective();
-	
+
 	if(bSkipTraderTime)
 	{
 		//Go to some unused state so that PlayingWave.BeginState is called when we go to PlayingWave.
 		MyKFGI.GotoState('TravelTheWorld');
-		
+
 		UpdateEndlessDifficulty();
-		
+
 		//Go to PlayingWave to start the new wave.
 		MyKFGI.GotoState('PlayingWave');
 	}
@@ -174,7 +174,7 @@ function SetWave(int NewWaveNum, PlayerController PC, optional bool bSkipTraderT
 	{
 		//Go to trader time before starting the new wave.
 		MyKFGI.GotoState('TraderOpen');
-		
+
 		UpdateEndlessDifficulty();
 	}
 
@@ -189,20 +189,20 @@ function UpdateEndlessDifficulty()
 {
 	local KFGameInfo_Endless Endless;
 	local int i;
-	
+
 	Endless = KFGameInfo_Endless(MyKFGI);
-	
+
 	if(Endless == None)
 	{
 		return;
 	}
-	
+
 	//Reflects the difficulty update in KFGameInfo_Endless.SetWave.
 	Endless.bIsInHoePlus = false;
 	Endless.ResetDifficulty();
 	Endless.SpawnManager.GetWaveSettings(Endless.SpawnManager.WaveSettings);
 	Endless.UpdateGameSettings();
-	
+
 	//Don't bother iterating for i=0-4, no difficulty increment can occur.
 	for(i = 5; i < Endless.WaveNum; ++i)
 	{
@@ -211,7 +211,7 @@ function UpdateEndlessDifficulty()
 		{
 			Endless.IncrementDifficulty();
 		}
-		
+
 		//This should happen at the end of each wave (if we're in HoE+). The check is handled internally.
 		//We do this after the simulation of a boss death so that bIsInHoePlus can be set first.
 		Endless.HellOnEarthPlusRoundIncrement();
@@ -234,38 +234,38 @@ function OverrideBoss()
 {
 	local bool bHalt;
 	local byte MaxIters, i, MaxSameIters, PrevIndex, SameIters;
-	
+
 	//We need a valid KFGRI reference as we use its public BossIndex field.
 	if(MyKFGI.MyKFGRI == None)
 	{
 		SetTimer(0.2, false, nameof(OverrideBoss));
 		return;
 	}
-	
+
 	//Unfortunately, we cannot directly set the boss index since KFGameInfo.BossIndex is protected. The only
 	//way we can affect BossIndex is through KFGameInfo.SetBossIndex which randomly chooses a value in the
 	//valid range. So we have to continue calling SetBossIndex until the desired index has been chosen. We
 	//can verify this by checking KFGameReplicationInfo.BossIndex because that is public.
-	
+
 	i = 0;
 	MaxIters = 100;
-	
+
 	//Since some events/maps could force a specific boss to be spawned (see KFGameInfo.SetBossIndex), we
 	//should check whether the index hasn't changed after several iterations. If it stays the same for a
 	//while we assume the index is forced, in which case we can't do anything about it.
 	SameIters = 0;
 	MaxSameIters = 10;
 	PrevIndex = MyKFGI.MyKFGRI.BossIndex;
-	
+
 	bHalt = Boss < 0 || MyKFGI.MyKFGRI.BossIndex == Boss;
-	
+
 	while(!bHalt)
 	{
 		++i;
-		
+
 		//Randomly select a new boss.
 		MyKFGI.SetBossIndex();
-		
+
 		//Track whether the boss index is changing.
 		if(MyKFGI.MyKFGRI.BossIndex == PrevIndex)
 		{
@@ -276,11 +276,11 @@ function OverrideBoss()
 			SameIters = 0;
 			PrevIndex = MyKFGI.MyKFGRI.BossIndex;
 		}
-		
+
 		//Halt if we have the desired index or we have tried enough times.
 		bHalt = MyKFGI.MyKFGRI.BossIndex == Boss || SameIters >= MaxSameIters || i >= MaxIters;
 	}
-	
+
 	if(MyKFGI.MyKFGRI.BossIndex == Boss)
 	{
 		`log("Successfully overrode boss index to "$Boss$" after "$i$" attempts.", bUseDebug, 'StartWave');
@@ -298,26 +298,26 @@ function OverrideTimer()
 	local KFGameInfo_Endless KFGI_Endl;
 	local KFGameDifficulty_Endless KFGD_Endl;
 	local int i;
-	
+
 	//If we've overriden what we need to, don't call this timer again.
 	if(bOverridenDifficultySettings && bOverridenTraderDuration)
 	{
 		`log("All settings have been overriden.", bUseDebug, 'StartWave');
 		return;
 	}
-	
+
 	if(!bOverridenDifficultySettings && MyKFGI.DifficultyInfo != None)
 	{
 		`log("Overriding difficulty settings...", bUseDebug, 'StartWave');
-		
+
 		bOverridenDifficultySettings = true;
-		
+
 		//Override starting dosh.
 		MyKFGI.DifficultyInfo.Normal.StartingDosh = Dosh;
 		MyKFGI.DifficultyInfo.Hard.StartingDosh = Dosh;
 		MyKFGI.DifficultyInfo.Suicidal.StartingDosh = Dosh;
 		MyKFGI.DifficultyInfo.HellOnEarth.StartingDosh = Dosh;
-		
+
 		KFGI_Endl = KFGameInfo_Endless(MyKFGI);
 		if (KFGI_Endl != None)
 		{
@@ -330,19 +330,19 @@ function OverrideTimer()
 				}
 			}
 		}
-		
+
 		`log("Starting dosh has been set to: "$Dosh$" dosh.", bUseDebug, 'StartWave');
-		
+
 		//We need to set the difficulty settings again - normally done in KFGameInfo.InitGame - to apply
 		//these changes, since this happens after InitGame is executed.
 		MyKFGI.DifficultyInfo.SetDifficultySettings(MyKFGI.GameDifficulty);
 	}
-	
+
 	//Set the starting wave number.
 	if(!bOverridenTraderDuration)
 	{
 		KFGI_Surv = KFGameInfo_Survival(MyKFGI);
-		
+
 		if(KFGI_Surv != None)
 		{
 			//We require the SpawnManager to be set, because this signifies that InitSpawnManager has been
@@ -350,14 +350,14 @@ function OverrideTimer()
 			if(MyKFGI.SpawnManager != None)
 			{
 				`log("Overriding trader duration...", bUseDebug, 'StartWave');
-				
+
 				bOverridenTraderDuration = true;
-				
+
 				//Since InitSpawnManager has been executed, then PreBeginPlay must have been executed. This
 				//means that PostBeginPlay will have been executed as well since it happens straight after.
 				//Now we can override TimeBetweenWaves.
 				KFGI_Surv.TimeBetweenWaves = bInitialTrader ? InitialTraderTime : TraderTime;
-				
+
 				`log("Trader duration has been set to: "$KFGI_Surv.TimeBetweenWaves$" seconds.", bUseDebug,
 					'StartWave');
 			}
@@ -365,7 +365,7 @@ function OverrideTimer()
 			{
 				`log("MyKFGI.SpawnManager hasn't been set yet. Calling StartWaveTimer again.", bUseDebug,
 					'StartWave');
-				
+
 				//We don't know WaveMax yet, so we need to wait longer.
 				SetTimer(0.1, false, nameof(StartWaveTimer));
 				return;
@@ -377,7 +377,7 @@ function OverrideTimer()
 				$"compatible with non-wave-based game modes.", true, 'StartWave');
 		}
 	}
-	
+
 	//If the difficulty info isn't set yet, wait.
 	SetTimer(0.1, false, nameof(OverrideTimer));
 }
@@ -386,7 +386,7 @@ function StartWaveTimer()
 {
 	local KFGameInfo_Survival KFGI_Surv;
 	local PlayerController PC;
-	
+
 	//We need to wait for the wave to be active, as this will signify that StartMatch has been executed.
 	if(!MyKFGI.IsWaveActive())
 	{
@@ -394,16 +394,16 @@ function StartWaveTimer()
 		SetTimer(0.1, false, nameof(StartWaveTimer));
 		return;
 	}
-	
+
 	KFGI_Surv = KFGameInfo_Survival(MyKFGI);
-	
+
 	if(KFGI_Surv == None)
 	{
 		return;
 	}
-	
+
 	`log("Clearing the current wave.", bUseDebug, 'StartWave');
-	
+
 	//Clear the current wave.
 	foreach WorldInfo.AllControllers(class'PlayerController', PC)
 	{
@@ -413,39 +413,39 @@ function StartWaveTimer()
 			break;
 		}
 	}
-	
+
 	//Set the starting wave number.
 	//Keep the assignments separated so that we can used the restricted StartWave later if we want.
 	StartWave = Min(StartWave, KFGI_Surv.WaveMax);
 	//We need to subtract 1 because when the state is eventually reset to PlayingWave, this will be
 	//incremented by 1.
 	KFGI_Surv.WaveNum = StartWave - 1;
-	
+
 	`log("WaveNum set to: "$KFGI_Surv.WaveNum, bUseDebug, 'StartWave');
-	
+
 	if(bStartWithTrader)
 	{
 		`log("Switching to state: TraderOpen.", bUseDebug, 'StartWave');
-		
+
 		//We need to update GRI's WaveNum and update the HUD element that shows the last wave.
 		MyKFGI.MyKFGRI.WaveNum = KFGI_Surv.WaveNum;
 		MyKFGI.MyKFGRI.UpdateHUDWaveCount();
-		
+
 		//Start with the trader active.
 		MyKFGI.GotoState('TraderOpen', 'Begin');
 	}
 	else
-	{	
+	{
 		`log("Switching to state: PlayingWave.", bUseDebug, 'StartWave');
-		
+
 		//Start with a wave as usual - but our StartWave number will be used.
 		MyKFGI.GotoState('PlayingWave');
 	}
-	
+
 	//Since we've updated the wave number, we need to update the game settings (which includes the
 	//current wave number).
 	MyKFGI.UpdateGameSettings();
-	
+
 	bInitialTrader = false;
 }
 
@@ -466,7 +466,7 @@ function UpdateTraderDurationTimer()
 			`warn("The game mode does not extend KFGameInfo_Survival. Most features of this mutator are not"
 				$"compatible with non-wave-based game modes.", true, 'StartWave');
 		}
-		
+
 		//We don't need to call this timer again.
 		ClearTimer(nameof(UpdateTraderDurationTimer));
 	}
@@ -486,12 +486,12 @@ static function bool GetBoolOption(string Options, string ParseString, bool Curr
 
 	//Find the value associated with this variable in the launch command.
 	InOpt = class'GameInfo'.static.ParseOption(Options, ParseString);
-	
+
 	if(InOpt != "")
 	{
 		return bool(InOpt);
 	}
-	
+
 	//If a value for this variable was not specified in the launch command, return the original value.
 	return CurrentValue;
 }
@@ -510,12 +510,12 @@ static function string GetStringOption(string Options, string ParseString, strin
 
 	//Find the value associated with this variable in the launch command.
 	InOpt = class'GameInfo'.static.ParseOption(Options, ParseString);
-	
+
 	if(InOpt != "")
 	{
 		return InOpt;
 	}
-	
+
 	//If a value for this variable was not specified in the launch command, return the original value.
 	return CurrentValue;
 }
