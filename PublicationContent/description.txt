@@ -14,7 +14,7 @@ No. This mod is not whitelisted and will unrank your server. Any XP gained will 
 [h1]Usage (single player):[/h1]
 [olist]
 [*]Subscribe to this mutator;
-[*]Start KF2; 
+[*]Start KF2;
 [*]Open console (`) and input:
 [b]open KF-BioticsLab?Game=KFGameContent.KFGameInfo_Endless?Difficulty=0?GameLength=0?Mutator=StartWave.StartWave?[/b]
 (replace the map and add the parameters you need)
