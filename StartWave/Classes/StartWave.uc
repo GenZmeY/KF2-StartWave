@@ -299,6 +299,10 @@ private function UpdateEndlessDifficulty()
 		return;
 	}
 
+	// KFGIE.ResetDifficulty() does not reset ModifiedDifficulty, so do it manually
+	KFGRI.SetModifiedGameDifficulty(0);
+	KFGI.GameDifficultyModifier = 0;
+
 	//Reflects the difficulty update in KFGameInfo_Endless.SetWave.
 	KFGIE.bIsInHoePlus = false;
 	KFGIE.ResetDifficulty();
@@ -306,7 +310,7 @@ private function UpdateEndlessDifficulty()
 	KFGIE.UpdateGameSettings();
 
 	//Don't bother iterating for i=0-4, no difficulty increment can occur.
-	for (i = 5; i < KFGIE.WaveNum; ++i)
+	for (i = 5; i <= KFGIE.WaveNum; ++i)
 	{
 		//Simulate the death of a boss. The difficulty is incremented after each boss round.
 		if (i % 5 == 0)
@@ -318,6 +322,8 @@ private function UpdateEndlessDifficulty()
 		//We do this after the simulation of a boss death so that bIsInHoePlus can be set first.
 		KFGIE.HellOnEarthPlusRoundIncrement();
 	}
+
+	`Log_Debug("Updated difficulty (Game + Modifier):" @ String(KFGRI.GameDifficulty) @ "+" @ String(KFGRI.GameDifficultyModifier));
 }
 
 /** Checks whether we should force the initial trader, regardless of the config/command value. */
@@ -452,7 +458,9 @@ private function StartWaveTimer()
 	//incremented by 1.
 	KFGIS.WaveNum = StartWave - 1;
 
-	`Log_Debug("WaveNum set to:" @ KFGIS.WaveNum);
+	UpdateEndlessDifficulty();
+
+	`Log_Info("WaveNum set to:" @ KFGIS.WaveNum);
 
 	if (bStartWithTrader)
 	{
