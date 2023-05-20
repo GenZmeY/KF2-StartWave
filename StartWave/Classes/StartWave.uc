@@ -258,7 +258,7 @@ private function SetWave(int NewWaveNum, PlayerController PC, optional bool bSki
 	}
 
 	//Kill all zeds currently alive.
-	PC.ConsoleCommand("KillZeds");
+	KillZeds();
 
 	//Clear any current objectives.
 	KFGRI.DeactivateObjective();
@@ -446,7 +446,7 @@ private function StartWaveTimer()
 	{
 		if (KFDemoRecSpectator(PC) == none)
 		{
-			PC.ConsoleCommand("KillZeds");
+			KillZeds();
 			break;
 		}
 	}
@@ -505,6 +505,21 @@ private function UpdateTraderDurationTimer()
 
 		//We don't need to call this timer again.
 		ClearTimer(nameof(UpdateTraderDurationTimer));
+	}
+}
+
+private function KillZeds()
+{
+	local KFPawn_Monster KFPM;
+
+	foreach WorldInfo.AllPawns(class'KFPawn_Monster', KFPM)
+	{
+		if (!KFPM.IsAliveAndWell()) continue;
+
+		if (KFPM.Health > 0 && PlayerController(KFPM.Controller) == None)
+		{
+			KFPM.Died(None, None, KFPM.Location);
+		}
 	}
 }
 

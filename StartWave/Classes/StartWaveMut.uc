@@ -32,7 +32,7 @@ public event PreBeginPlay()
 
 public function AddMutator(Mutator Mut)
 {
-	if (Mut == Self || bPendingDelete || bDeleteMe) return;
+	if (Mut == Self) return;
 
 	if (Mut.Class == Class)
 		StartWaveMut(Mut).SafeDestroy();
