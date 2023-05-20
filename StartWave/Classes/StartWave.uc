@@ -83,11 +83,13 @@ public event PostBeginPlay()
 
 private function PreInit()
 {
+	local String URL;
 	local String Options;
 
 	`Log_Trace();
 
-	Options = WorldInfo.GetLocalURL();
+	URL = WorldInfo.GetLocalURL();
+	Options = Mid(URL, InStr(URL, "?"));
 
 	//Parse options entered via the launch command.
 	//We further restrict StartWave later when we know the maximum wave number for the selected game length.
@@ -106,6 +108,7 @@ private function PreInit()
 	Dosh              = Max(Dosh, 0);
 
 	//DEBUG
+	`Log_Debug("LogLevel:"          @ LogLevel);
 	`Log_Debug("StartWave:"         @ StartWave);
 	`Log_Debug("InitialTraderTime:" @ InitialTraderTime);
 	`Log_Debug("TraderTime:"        @ TraderTime);
