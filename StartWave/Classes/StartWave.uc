@@ -182,6 +182,8 @@ private function PostInit()
 		`Log_Debug("Calling UpdateTraderDurationTimer() to alter the trader duration later.");
 		SetTimer(1, true, nameof(UpdateTraderDurationTimer));
 	}
+
+	`Log_Info("Initialized.");
 }
 
 /** Allows for handling player input in the console by the mutator. */
@@ -241,9 +243,9 @@ private function SetWave(int NewWaveNum, PlayerController PC, optional bool bSki
 	else
 	{
 		//Jump straight to the boss wave if the specified wave number is higher than wave max.
-		if (NewWaveNum > KFGameInfo_Survival(KFGI).WaveMax)
+		if (NewWaveNum > KFGIS.WaveMax)
 		{
-			NewWaveNum = KFGameInfo_Survival(KFGI).WaveMax+1;
+			NewWaveNum = KFGIS.WaveMax+1;
 		}
 	}
 
@@ -460,10 +462,6 @@ private function OverrideTimer()
 				return;
 			}
 		}
-		else
-		{
-			`Log_Warn("The game mode does not extend KFGameInfo_Survival. Most features of this mutator are not compatible with non-wave-based game modes.");
-		}
 	}
 
 	//If the difficulty info isn't set yet, wait.
@@ -544,15 +542,11 @@ private function UpdateTraderDurationTimer()
 	//If the initial trader has already been opened, and the wave is now active.
 	if (!bInitialTrader && KFGI.IsWaveActive())
 	{
-		if (KFGameInfo_Survival(KFGI) != None)
+		if (KFGIS != None)
 		{
 			`Log_Debug("Updating trader duration to" @ TraderTime @ "seconds.");
 			//We can update TimeBetweenWaves to be the TraderTime we specified in the launch command.
-			KFGameInfo_Survival(KFGI).TimeBetweenWaves = TraderTime;
-		}
-		else
-		{
-			`Log_Warn("The game mode does not extend KFGameInfo_Survival. Most features of this mutator are not compatible with non-wave-based game modes.");
+			KFGIS.TimeBetweenWaves = TraderTime;
 		}
 
 		//We don't need to call this timer again.
