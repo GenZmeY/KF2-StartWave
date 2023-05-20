@@ -19,9 +19,9 @@ var config bool bStartWithTrader;
 var config E_LogLevel LogLevel;
 
 /**
-  * The boss override index. For the default boss list, 0-Hans, 1-Patty, 2-King FP, 3-Abomination. Negative
-  * values can be used to keep the boss spawn random.
-  */
+*** The boss override index. For the default boss list, 0-Hans, 1-Patty, 2-King FP, 3-Abomination. Negative
+*** values can be used to keep the boss spawn random.
+***/
 var config int Boss;
 
 /*********************************************************************************************************
@@ -181,9 +181,9 @@ function SetWave(int NewWaveNum, PlayerController PC, optional bool bSkipTraderT
 }
 
 /**
-  * Since the difficulty in Endless scales with the wave number, we need to update the difficulty when
-  * jumping between wave numbers to match the expected difficulty.
-  */
+*** Since the difficulty in Endless scales with the wave number, we need to update the difficulty when
+*** jumping between wave numbers to match the expected difficulty.
+***/
 function UpdateEndlessDifficulty()
 {
 	local KFGameInfo_Endless Endless;
@@ -468,13 +468,13 @@ function UpdateTraderDurationTimer()
 }
 
 /**
-  * @brief Gets a bool from the launch command if available.
-  *
-  * @param Options - options passed in via the launch command
-  * @param ParseString - the variable we are looking for
-  * @param CurrentValue - the current value of the variable
-  * @return bool value of the option we are looking for
-  */
+*** @brief Gets a bool from the launch command if available.
+***
+*** @param Options - options passed in via the launch command
+*** @param ParseString - the variable we are looking for
+*** @param CurrentValue - the current value of the variable
+*** @return bool value of the option we are looking for
+***/
 static function bool GetBoolOption(string Options, string ParseString, bool CurrentValue)
 {
 	local string InOpt;
@@ -492,13 +492,13 @@ static function bool GetBoolOption(string Options, string ParseString, bool Curr
 }
 
 /**
-  * @brief Gets a string from the launch command if available.
-  *
-  * @param Options - options passed in via the launch command
-  * @param ParseString - the variable we are looking for
-  * @param CurrentValue - the current value of the variable
-  * @return string value of the option we are looking for
-  */
+*** @brief Gets a string from the launch command if available.
+***
+*** @param Options - options passed in via the launch command
+*** @param ParseString - the variable we are looking for
+*** @param CurrentValue - the current value of the variable
+*** @return string value of the option we are looking for
+***/
 static function string GetStringOption(string Options, string ParseString, string CurrentValue)
 {
 	local string InOpt;
