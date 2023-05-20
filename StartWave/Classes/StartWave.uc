@@ -7,6 +7,8 @@ var private KFGameInfo            KFGI;
 var private KFGameInfo_Survival   KFGIS;
 var private KFGameInfo_Endless    KFGIE;
 
+var private KFGI_Access           KFGIA;
+
 var private KFGameReplicationInfo KFGRI;
 
 /*********************************************************************************************************
@@ -112,15 +114,55 @@ private function PreInit()
 	`Log_Debug("bStartWithTrader:"  @ bStartWithTrader);
 
 	bOverridenDifficultySettings = false;
-	bOverridenTraderDuration = false;
+	bOverridenTraderDuration     = false;
+}
+
+private function PostInit()
+{
+	`Log_Trace();
+
+	if (WorldInfo.Game == None || WorldInfo.GRI == None)
+	{
+		SetTimer(0.2, false, nameof(PostInit));
+		return;
+	}
+
+	KFGI = KFGameInfo(WorldInfo.Game);
+	if (KFGI == None)
+	{
+		`Log_Fatal("Incompatible gamemode:" @ WorldInfo.Game $ ". Destroy...");
+		SafeDestroy();
+		return;
+	}
+
+	KFGIA = new(KFGI) class'KFGI_Access';
+	if (KFGIA == None)
+	{
+		`Log_Fatal("Can't create KFGI_Access object");
+		SafeDestroy();
+		return;
+	}
+
+	KFGIS = KFGameInfo_Survival(KFGI);
+	if (KFGIS == None)
+	{
+		`Log_Warn("The game mode does not extend KFGameInfo_Survival. Most features of this mutator are not compatible with non-wave-based game modes.");
+	}
+
+	KFGIE = KFGameInfo_Endless(KFGIS);
+
+	KFGRI = KFGameReplicationInfo(WorldInfo.GRI);
+	if (KFGRI == None)
+	{
+		`Log_Fatal("Incompatible game replication info:" @ WorldInfo.GRI $ ". Destroy...");
+		SafeDestroy();
+		return;
+	}
 
 	SetTimer(0.1, false, nameof(OverrideTimer));
 
 	//Override the boss with the boss corresponding to the specified boss index. -1 signifies random.
-	if (Boss != -1)
-	{
-		SetTimer(0.1, false, nameof(OverrideBoss));
-	}
+	KFGIA.OverrideBossIndex(Boss);
 
 	CheckForceInitialTrader();
 
@@ -140,28 +182,6 @@ private function PreInit()
 		`Log_Debug("Calling UpdateTraderDurationTimer() to alter the trader duration later.");
 		SetTimer(1, true, nameof(UpdateTraderDurationTimer));
 	}
-}
-
-private function PostInit()
-{
-	`Log_Trace();
-
-	KFGI = KFGameInfo(WorldInfo.Game);
-	if (KFGIS == None)
-	{
-		`Log_Fatal("Incompatible gamemode:" @ WorldInfo.Game $ ". Destroy...");
-		SafeDestroy();
-		return;
-	}
-
-	KFGIS = KFGameInfo_Survival(KFGI);
-	if (KFGIS == None)
-	{
-		`Log_Warn("The game mode does not extend KFGameInfo_Survival. Most features of this mutator are not compatible with non-wave-based game modes.");
-	}
-
-	KFGIE = KFGameInfo_Endless(KFGIS);
-	KFGRI = KFGI.MyKFGRI;
 }
 
 /** Allows for handling player input in the console by the mutator. */
@@ -315,13 +335,6 @@ private function OverrideBoss()
 	local byte MaxIters, i, MaxSameIters, PrevIndex, SameIters;
 
 	`Log_Trace();
-
-	//We need a valid KFGRI reference as we use its public BossIndex field.
-	if (KFGRI == None)
-	{
-		SetTimer(0.2, false, nameof(OverrideBoss));
-		return;
-	}
 
 	//Unfortunately, we cannot directly set the boss index since KFGameInfo.BossIndex is protected. The only
 	//way we can affect BossIndex is through KFGameInfo.SetBossIndex which randomly chooses a value in the
