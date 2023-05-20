@@ -10,7 +10,7 @@ const GameInfo = class'GameInfo';
 *** @param CurrentValue - the current value of the variable
 *** @return int value of the option we are looking for
 ***/
-static function int GetIntOption( string Options, string ParseString, int CurrentValue)
+static function int GetIntOption( String Options, String ParseString, int CurrentValue)
 {
 	return GameInfo.static.GetIntOption(Options, ParseString, CurrentValue);
 }
@@ -23,14 +23,14 @@ static function int GetIntOption( string Options, string ParseString, int Curren
 *** @param CurrentValue - the current value of the variable
 *** @return bool value of the option we are looking for
 ***/
-static public function bool GetBoolOption(string Options, string ParseString, bool CurrentValue)
+static public function bool GetBoolOption(String Options, String ParseString, bool CurrentValue)
 {
-	local string InOpt;
+	local String InOpt;
 
 	//Find the value associated with this variable in the launch command.
 	InOpt = GameInfo.static.ParseOption(Options, ParseString);
 
-	if(InOpt != "")
+	if (InOpt != "")
 	{
 		return bool(InOpt);
 	}
@@ -40,21 +40,21 @@ static public function bool GetBoolOption(string Options, string ParseString, bo
 }
 
 /**
-*** @brief Gets a string from the launch command if available.
+*** @brief Gets a String from the launch command if available.
 ***
 *** @param Options - options passed in via the launch command
 *** @param ParseString - the variable we are looking for
 *** @param CurrentValue - the current value of the variable
-*** @return string value of the option we are looking for
+*** @return String value of the option we are looking for
 ***/
-static public function string GetStringOption(string Options, string ParseString, string CurrentValue)
+static public function String GetStringOption(String Options, String ParseString, String CurrentValue)
 {
-	local string InOpt;
+	local String InOpt;
 
 	//Find the value associated with this variable in the launch command.
 	InOpt = GameInfo.static.ParseOption(Options, ParseString);
 
-	if(InOpt != "")
+	if (InOpt != "")
 	{
 		return InOpt;
 	}
@@ -71,7 +71,17 @@ static public function string GetStringOption(string Options, string ParseString
 *** @param CurrentValue - the current value of the variable
 *** @return E_LogLevel value of the option we are looking for
 ***/
-static public function E_LogLevel GetLogLevelOption(string Options, string ParseString, E_LogLevel CurrentValue)
+static public function E_LogLevel GetLogLevelOption(String Options, String ParseString, E_LogLevel CurrentValue)
 {
-	return CurrentValue; // TODO: impl
+	local String InOpt;
+
+	//Find the value associated with this variable in the launch command.
+	InOpt = GameInfo.static.ParseOption(Options, ParseString);
+
+	if (InOpt != "")
+	{
+		return class'_Logger'.static.LogLevelFromString(InOpt, CurrentValue);
+	}
+
+	return CurrentValue;
 }
