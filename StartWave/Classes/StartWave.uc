@@ -29,8 +29,8 @@ var config bool bStartWithTrader;
 var config E_LogLevel LogLevel;
 
 /**
-*** The boss override index. For the default boss list, 0-Hans, 1-Patty, 2-King FP, 3-Abomination. Negative
-*** values can be used to keep the boss spawn random.
+*** The boss override index. For the default boss list, 0-Hans, 1-Patty, 2-King FP, 3-Abomination.
+*** Negative values can be used to keep the boss spawn random.
 ***/
 var config int Boss;
 
