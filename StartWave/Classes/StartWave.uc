@@ -15,8 +15,9 @@ var config int TraderTime;
 var config int Dosh;
 /** Whether an 'initial' trader time should occur before the first wave. */
 var config bool bStartWithTrader;
-/** Whether mod-specific events should be logged. */
-var config bool bUseDebug;
+/** Log level. */
+var config E_LogLevel LogLevel;
+
 /**
   * The boss override index. For the default boss list, 0-Hans, 1-Patty, 2-King FP, 3-Abomination. Negative
   * values can be used to keep the boss spawn random.
@@ -50,15 +51,15 @@ function InitMutator(string Options, out string ErrorMessage)
 	Dosh = Max(class'GameInfo'.static.GetIntOption(Options, "Dosh", Dosh), 0);
 	Boss = class'GameInfo'.static.GetIntOption(Options, "Boss", Boss);
 	bStartWithTrader = GetBoolOption(Options, "bStartWithTrader", bStartWithTrader);
-	bUseDebug = GetBoolOption(Options, "bUseDebug", bUseDebug);
+	LogLevel = E_LogLevel(class'GameInfo'.static.GetIntOption(Options, "LogLevel", LogLevel));
 
 	//DEBUG
-	`log("StartWave: "$StartWave, bUseDebug, 'StartWave');
-	`log("InitialTraderTime: "$InitialTraderTime, bUseDebug, 'StartWave');
-	`log("TraderTime: "$TraderTime, bUseDebug, 'StartWave');
-	`log("Dosh: "$Dosh, bUseDebug, 'StartWave');
-	`log("Boss: "$Boss, bUseDebug, 'StartWave');
-	`log("bStartWithTrader: "$bStartWithTrader, bUseDebug, 'StartWave');
+	`Log_Debug("StartWave: " $ StartWave);
+	`Log_Debug("InitialTraderTime: " $ InitialTraderTime);
+	`Log_Debug("TraderTime: " $ TraderTime);
+	`Log_Debug("Dosh: " $ Dosh);
+	`Log_Debug("Boss: " $ Boss);
+	`Log_Debug("bStartWithTrader: " $ bStartWithTrader);
 
 	bOverridenDifficultySettings = false;
 	bOverridenTraderDuration = false;
@@ -79,16 +80,14 @@ function InitMutator(string Options, out string ErrorMessage)
 	//If we want to start with the trader active or alter the starting wave number.
 	if(bStartWithTrader || StartWave > 1)
 	{
-		`log("Calling StartWaveTimer() to alter the start wave or activate the trader initially.",
-			bUseDebug, 'StartWave');
+		`Log_Debug("Calling StartWaveTimer() to alter the start wave or activate the trader initially.");
 		SetTimer(0.2, false, nameof(StartWaveTimer));
 	}
 
 	//If we will need to alter TimeBetweenWaves for later activations of the trader.
 	if(bStartWithTrader && InitialTraderTime != TraderTime)
 	{
-		`log("Calling UpdateTraderDurationTimer() to alter the trader duration later.", bUseDebug,
-			'StartWave');
+		`Log_Debug("Calling UpdateTraderDurationTimer() to alter the trader duration later.");
 		SetTimer(1, true, nameof(UpdateTraderDurationTimer));
 	}
 }
@@ -131,7 +130,7 @@ function SetWave(int NewWaveNum, PlayerController PC, optional bool bSkipTraderT
 {
 	if(NewWaveNum < 1)
 	{
-		`log("SetWave: new wave num must be > 0.", true, 'StartWave');
+		`Log_Error("SetWave: new wave num must be > 0.");
 		return;
 	}
 
@@ -283,11 +282,11 @@ function OverrideBoss()
 
 	if(MyKFGI.MyKFGRI.BossIndex == Boss)
 	{
-		`log("Successfully overrode boss index to "$Boss$" after "$i$" attempts.", bUseDebug, 'StartWave');
+		`Log_Debug("Successfully overrode boss index to" @ Boss @ "after" @ i @ "attempts.");
 	}
 	else
 	{
-		`log("Failed to override boss index after "$i$" attempts.", bUseDebug, 'StartWave');
+		`Log_Debug("Failed to override boss index after" @ i @ "attempts.");
 	}
 }
 
@@ -302,13 +301,13 @@ function OverrideTimer()
 	//If we've overriden what we need to, don't call this timer again.
 	if(bOverridenDifficultySettings && bOverridenTraderDuration)
 	{
-		`log("All settings have been overriden.", bUseDebug, 'StartWave');
+		`Log_Debug("All settings have been overriden.");
 		return;
 	}
 
 	if(!bOverridenDifficultySettings && MyKFGI.DifficultyInfo != None)
 	{
-		`log("Overriding difficulty settings...", bUseDebug, 'StartWave');
+		`Log_Debug("Overriding difficulty settings...");
 
 		bOverridenDifficultySettings = true;
 
@@ -331,7 +330,7 @@ function OverrideTimer()
 			}
 		}
 
-		`log("Starting dosh has been set to: "$Dosh$" dosh.", bUseDebug, 'StartWave');
+		`Log_Debug("Starting dosh has been set to:" @ Dosh @ "dosh.");
 
 		//We need to set the difficulty settings again - normally done in KFGameInfo.InitGame - to apply
 		//these changes, since this happens after InitGame is executed.
@@ -349,7 +348,7 @@ function OverrideTimer()
 			//executed, which sets WaveMax.
 			if(MyKFGI.SpawnManager != None)
 			{
-				`log("Overriding trader duration...", bUseDebug, 'StartWave');
+				`Log_Debug("Overriding trader duration...");
 
 				bOverridenTraderDuration = true;
 
@@ -358,13 +357,11 @@ function OverrideTimer()
 				//Now we can override TimeBetweenWaves.
 				KFGI_Surv.TimeBetweenWaves = bInitialTrader ? InitialTraderTime : TraderTime;
 
-				`log("Trader duration has been set to: "$KFGI_Surv.TimeBetweenWaves$" seconds.", bUseDebug,
-					'StartWave');
+				`Log_Debug("Trader duration has been set to:" @ KFGI_Surv.TimeBetweenWaves @ "seconds.");
 			}
 			else
 			{
-				`log("MyKFGI.SpawnManager hasn't been set yet. Calling StartWaveTimer again.", bUseDebug,
-					'StartWave');
+				`Log_Debug("MyKFGI.SpawnManager hasn't been set yet. Calling StartWaveTimer again.");
 
 				//We don't know WaveMax yet, so we need to wait longer.
 				SetTimer(0.1, false, nameof(StartWaveTimer));
@@ -373,8 +370,7 @@ function OverrideTimer()
 		}
 		else
 		{
-			`warn("The game mode does not extend KFGameInfo_Survival. Most features of this mutator are not"
-				$"compatible with non-wave-based game modes.", true, 'StartWave');
+			`Log_Warn("The game mode does not extend KFGameInfo_Survival. Most features of this mutator are not compatible with non-wave-based game modes.");
 		}
 	}
 
@@ -402,7 +398,7 @@ function StartWaveTimer()
 		return;
 	}
 
-	`log("Clearing the current wave.", bUseDebug, 'StartWave');
+	`Log_Debug("Clearing the current wave.");
 
 	//Clear the current wave.
 	foreach WorldInfo.AllControllers(class'PlayerController', PC)
@@ -421,11 +417,11 @@ function StartWaveTimer()
 	//incremented by 1.
 	KFGI_Surv.WaveNum = StartWave - 1;
 
-	`log("WaveNum set to: "$KFGI_Surv.WaveNum, bUseDebug, 'StartWave');
+	`Log_Debug("WaveNum set to:" @ KFGI_Surv.WaveNum);
 
 	if(bStartWithTrader)
 	{
-		`log("Switching to state: TraderOpen.", bUseDebug, 'StartWave');
+		`Log_Debug("Switching to state: TraderOpen.");
 
 		//We need to update GRI's WaveNum and update the HUD element that shows the last wave.
 		MyKFGI.MyKFGRI.WaveNum = KFGI_Surv.WaveNum;
@@ -436,7 +432,7 @@ function StartWaveTimer()
 	}
 	else
 	{
-		`log("Switching to state: PlayingWave.", bUseDebug, 'StartWave');
+		`Log_Debug("Switching to state: PlayingWave.");
 
 		//Start with a wave as usual - but our StartWave number will be used.
 		MyKFGI.GotoState('PlayingWave');
@@ -457,14 +453,13 @@ function UpdateTraderDurationTimer()
 	{
 		if(KFGameInfo_Survival(MyKFGI) != None)
 		{
-			`log("Updating trader duration to "$TraderTime$" seconds.", bUseDebug, 'StartWave');
+			`Log_Debug("Updating trader duration to" @ TraderTime @ "seconds.");
 			//We can update TimeBetweenWaves to be the TraderTime we specified in the launch command.
 			KFGameInfo_Survival(MyKFGI).TimeBetweenWaves = TraderTime;
 		}
 		else
 		{
-			`warn("The game mode does not extend KFGameInfo_Survival. Most features of this mutator are not"
-				$"compatible with non-wave-based game modes.", true, 'StartWave');
+			`Log_Warn("The game mode does not extend KFGameInfo_Survival. Most features of this mutator are not compatible with non-wave-based game modes.");
 		}
 
 		//We don't need to call this timer again.
