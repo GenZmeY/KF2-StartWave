@@ -108,13 +108,13 @@ private function PreInit()
 	Dosh              = Max(Dosh, 0);
 
 	//DEBUG
-	`Log_Debug("LogLevel:"          @ LogLevel);
-	`Log_Debug("StartWave:"         @ StartWave);
-	`Log_Debug("InitialTraderTime:" @ InitialTraderTime);
-	`Log_Debug("TraderTime:"        @ TraderTime);
-	`Log_Debug("Dosh:"              @ Dosh);
-	`Log_Debug("Boss:"              @ Boss);
-	`Log_Debug("bStartWithTrader:"  @ bStartWithTrader);
+	`Log_Info("LogLevel:"          @ LogLevel);
+	`Log_Info("StartWave:"         @ StartWave);
+	`Log_Info("InitialTraderTime:" @ InitialTraderTime);
+	`Log_Info("TraderTime:"        @ TraderTime);
+	`Log_Info("Dosh:"              @ Dosh);
+	`Log_Info("Boss:"              @ Boss);
+	`Log_Info("bStartWithTrader:"  @ bStartWithTrader);
 
 	bOverridenDifficultySettings = false;
 	bOverridenTraderDuration     = false;
@@ -330,63 +330,6 @@ private function CheckForceInitialTrader()
 	{
 		bStartWithTrader = true;
 		InitialTraderTime = 1.0;
-	}
-}
-
-/** Overrides the boss to spawn if a valid boss index has been specified. */
-private function OverrideBoss()
-{
-	local bool bHalt;
-	local byte MaxIters, i, MaxSameIters, PrevIndex, SameIters;
-
-	`Log_Trace();
-
-	//Unfortunately, we cannot directly set the boss index since KFGameInfo.BossIndex is protected. The only
-	//way we can affect BossIndex is through KFGameInfo.SetBossIndex which randomly chooses a value in the
-	//valid range. So we have to continue calling SetBossIndex until the desired index has been chosen. We
-	//can verify this by checking KFGameReplicationInfo.BossIndex because that is public.
-
-	i = 0;
-	MaxIters = 100;
-
-	//Since some events/maps could force a specific boss to be spawned (see KFGameInfo.SetBossIndex), we
-	//should check whether the index hasn't changed after several iterations. If it stays the same for a
-	//while we assume the index is forced, in which case we can't do anything about it.
-	SameIters = 0;
-	MaxSameIters = 10;
-	PrevIndex = KFGRI.BossIndex;
-
-	bHalt = Boss < 0 || KFGRI.BossIndex == Boss;
-
-	while (!bHalt)
-	{
-		++i;
-
-		//Randomly select a new boss.
-		KFGI.SetBossIndex();
-
-		//Track whether the boss index is changing.
-		if (KFGRI.BossIndex == PrevIndex)
-		{
-			++SameIters;
-		}
-		else
-		{
-			SameIters = 0;
-			PrevIndex = KFGRI.BossIndex;
-		}
-
-		//Halt if we have the desired index or we have tried enough times.
-		bHalt = KFGRI.BossIndex == Boss || SameIters >= MaxSameIters || i >= MaxIters;
-	}
-
-	if (KFGRI.BossIndex == Boss)
-	{
-		`Log_Debug("Successfully overrode boss index to" @ Boss @ "after" @ i @ "attempts.");
-	}
-	else
-	{
-		`Log_Debug("Failed to override boss index after" @ i @ "attempts.");
 	}
 }
 
