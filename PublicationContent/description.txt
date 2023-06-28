@@ -21,7 +21,7 @@ No. This mod is not whitelisted and will unrank your server. Any XP gained will 
 [*]Subscribe to this mutator;
 [*]Start KF2;
 [*]Open console (`) and input:
-[b]open KF-BioticsLab?Game=KFGameContent.KFGameInfo_Endless?Difficulty=0?GameLength=0?Mutator=StartWave.StartWaveMut?[/b]
+[b]open KF-BioticsLab?Game=KFGameContent.KFGameInfo_Endless?Difficulty=0?GameLength=0?Mutator=StartWave.StartWaveMut[/b]
 (replace the map and add the parameters you need)
 [*]<Enter>.
 [/olist]
@@ -36,12 +36,13 @@ No. This mod is not whitelisted and will unrank your server. Any XP gained will 
 [*]Add the following string to the [b][OnlineSubsystemSteamworks.KFWorkshopSteamworks][/b] section (create one if it doesn't exist):
 [b]ServerSubscribedWorkshopItems=2521731447[/b]
 [*]Start the server and wait while the mutator is downloading;
-[*]Add mutator to server start parameters: [b]?Mutator=StartWave.StartWaveMut[/b] and restart the server.
+[*]Add mutator (with parameters you need) to server start parameters: [b]?Mutator=StartWave.StartWaveMut[/b] and restart the server.
 [/olist]
 
 [h1]Mutator setup[/h1]
-You can use a config if you don't want to specify parameters in the startup line:
-Create a file KFGame/Config/KFStartWave.ini and copy this text into it:
+The parameters below can be used as parameters in the startup line.
+But You can use a config if you don't want to specify parameters in the startup line:
+Create a file [b]KFGame/Config/KFStartWave.ini[/b] and copy this text into it:
 [code]
 [StartWave.StartWave]
 // Any settings not specified in the launch command will use the values stored here.
@@ -100,11 +101,6 @@ Server:
 If it’s not a problem for you to download all subscriptions again, you can simply clear this folder(s). Your subscriptions are downloaded the next time you start the game/server.
 If you do not want to download the subscriptions again, delete only those folders that contain SetWave.u file.
 3. Try starting the game/server again.
-
-[h1]Bug reports[/h1]
-I didn't test the mod very much because I only needed to fix a bug with Dosh.
-If you find any other problems, please describe how to reproduce them. Maybe I can fix it.
-You can do it right here, but I'll be much happier if you do it [url=https://github.com/GenZmeY/KF2-StartWave/issues]in issues on github[/url] .
 
 [h1]Sources[/h1]
 [url=https://github.com/GenZmeY/KF2-StartWave]https://github.com/GenZmeY/KF2-StartWave[/url] [b](GNU GPLv3)[/b]
