@@ -48,7 +48,7 @@ Create a file KFGame/Config/KFStartWave.ini and copy this text into it:
 // If you use the same settings often, it is recommended to store those here
 // and only change what you need in the launch command.
 
-// LogLevel (Set this to "LL_Debug" if you need more information in the log)
+// LogLevel (Set this to 'LL_Debug' if you need more information in the log)
 LogLevel=LL_Info
 
 // Whether an 'initial' trader time should occur before the first wave.
