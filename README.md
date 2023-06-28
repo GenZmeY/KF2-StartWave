@@ -13,7 +13,10 @@ The purpose of this mod is to allow mappers to more efficiently test their maps 
 It is designed to be compatible with every mutator and wave-based gamemode, and to require little to no maintenance after game updates.
 
 **This is the same as [Pharrahnox's StartWave](https://steamcommunity.com/sharedfiles/filedetails/?id=1417081496), but with some fixes:**
-- fixed starting Dosh for Endless mode.
+- fixed starting Dosh for Endless mode;
+- fixed difficulty setting when changing wave;
+- optimized boss replacement: now it always works successfully and quickly;
+- players no longer need to download StartWave when connecting to a server.
 
 ## Usage
 [See steam workshop page](https://steamcommunity.com/sharedfiles/filedetails/?id=2521731447)

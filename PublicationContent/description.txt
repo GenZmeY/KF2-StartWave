@@ -2,7 +2,12 @@
 
 [h1]Description:[/h1]
 This is the same as [url=https://steamcommunity.com/sharedfiles/filedetails/?id=1417081496]Pharrahnox's SetWave[/url], but with some fixes:
-- fixed starting Dosh for Endless mode.
+[olist]
+[*] fixed starting Dosh for Endless mode;
+[*] fixed difficulty setting when changing wave;
+[*] optimized boss replacement: now it always works successfully and quickly;
+[*] players no longer need to download StartWave when connecting to a server.
+[/olist]
 
 A utility mod that allows users to specify the starting wave and the boss that will spawn. Additionally, users can jump between waves during the match with a console command (mutate setwave, see below).
 The purpose of this mod is to allow mappers to more efficiently test their maps for later waves or for the boss. It could also be used to skip early waves if you find them boring, or to test strategies against a specific boss.
@@ -16,7 +21,7 @@ No. This mod is not whitelisted and will unrank your server. Any XP gained will 
 [*]Subscribe to this mutator;
 [*]Start KF2;
 [*]Open console (`) and input:
-[b]open KF-BioticsLab?Game=KFGameContent.KFGameInfo_Endless?Difficulty=0?GameLength=0?Mutator=StartWave.StartWave?[/b]
+[b]open KF-BioticsLab?Game=KFGameContent.KFGameInfo_Endless?Difficulty=0?GameLength=0?Mutator=StartWave.StartWaveMut?[/b]
 (replace the map and add the parameters you need)
 [*]<Enter>.
 [/olist]
@@ -31,7 +36,7 @@ No. This mod is not whitelisted and will unrank your server. Any XP gained will 
 [*]Add the following string to the [b][OnlineSubsystemSteamworks.KFWorkshopSteamworks][/b] section (create one if it doesn't exist):
 [b]ServerSubscribedWorkshopItems=2521731447[/b]
 [*]Start the server and wait while the mutator is downloading;
-[*]Add mutator to server start parameters: [b]?Mutator=StartWave.StartWave[/b] and restart the server.
+[*]Add mutator to server start parameters: [b]?Mutator=StartWave.StartWaveMut[/b] and restart the server.
 [/olist]
 
 [h1]Mutator setup[/h1]
@@ -43,8 +48,8 @@ Create a file KFGame/Config/KFStartWave.ini and copy this text into it:
 // If you use the same settings often, it is recommended to store those here
 // and only change what you need in the launch command.
 
-// Whether mod-specific events should be logged.
-bUseDebug=true
+// LogLevel (Set this to "LL_Debug" if you need more information in the log)
+LogLevel=LL_Info
 
 // Whether an 'initial' trader time should occur before the first wave.
 bStartWithTrader=false
