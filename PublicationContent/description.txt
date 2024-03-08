@@ -21,7 +21,7 @@ No. This mod is not whitelisted and will unrank your server. Any XP gained will 
 [*]Subscribe to this mutator;
 [*]Start KF2;
 [*]Open console (`) and input:
-[b]open KF-BioticsLab?Game=KFGameContent.KFGameInfo_Endless?Difficulty=0?GameLength=0?Mutator=StartWave.StartWaveMut[/b]
+[b]open KF-BioticsLab?Game=KFGameContent.KFGameInfo_Endless?Difficulty=0?GameLength=0?Mutator=StartWave.Mut[/b]
 (replace the map and add the parameters you need)
 [*]<Enter>.
 [/olist]
@@ -36,7 +36,7 @@ No. This mod is not whitelisted and will unrank your server. Any XP gained will 
 [*]Add the following string to the [b][OnlineSubsystemSteamworks.KFWorkshopSteamworks][/b] section (create one if it doesn't exist):
 [b]ServerSubscribedWorkshopItems=2521731447[/b]
 [*]Start the server and wait while the mutator is downloading;
-[*]Add mutator (with parameters you need) to server start parameters: [b]?Mutator=StartWave.StartWaveMut[/b] and restart the server.
+[*]Add mutator (with parameters you need) to server start parameters: [b]?Mutator=StartWave.Mut[/b] and restart the server.
 [/olist]
 
 [h1]Mutator setup[/h1]
