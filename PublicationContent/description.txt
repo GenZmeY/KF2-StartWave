@@ -1,7 +1,7 @@
 [img]https://img.shields.io/static/v1?logo=GitHub&labelColor=gray&color=blue&logoColor=white&label=&message=Open Source[/img] [img]https://img.shields.io/github/license/GenZmeY/KF2-StartWave[/img] [img]https://img.shields.io/steam/subscriptions/2521731447[/img] [img]https://img.shields.io/steam/favorites/2521731447[/img] [img]https://img.shields.io/steam/update-date/2521731447[/img] [url=https://steamcommunity.com/sharedfiles/filedetails/changelog/2521731447][img]https://img.shields.io/github/v/tag/GenZmeY/KF2-StartWave[/img][/url]
 
-[h1]Description:[/h1]
-This is the same as [url=https://steamcommunity.com/sharedfiles/filedetails/?id=1417081496]Pharrahnox's SetWave[/url], but with some fixes:
+[h1]📋 Description:[/h1]
+This is the same as [url=https://steamcommunity.com/sharedfiles/filedetails/?id=1417081496]Pharrahnox's StartWave[/url], but with some fixes:
 [olist]
 [*] fixed starting Dosh for Endless mode;
 [*] fixed difficulty setting when changing wave;
@@ -13,33 +13,35 @@ A utility mod that allows users to specify the starting wave and the boss that w
 The purpose of this mod is to allow mappers to more efficiently test their maps for later waves or for the boss. It could also be used to skip early waves if you find them boring, or to test strategies against a specific boss.
 It is designed to be compatible with every mutator and wave-based gamemode, and to require little to no maintenance after game updates.
 
-[h1]Whitelisted?[/h1]
-No. This mod is not whitelisted and will unrank your server. Any XP gained will not be saved.
+[h1]❌ Whitelisted?[/h1]
+No. This mod is not whitelisted and will de-rank your server. Any XP earned will not be saved.
 
-[h1]Usage (single player):[/h1]
+[h1]🎮 Usage (single player)[/h1]
 [olist]
-[*]Subscribe to this mutator;
-[*]Start KF2;
-[*]Open console (`) and input:
-[b]open KF-BioticsLab?Game=KFGameContent.KFGameInfo_Endless?Difficulty=0?GameLength=0?Mutator=StartWave.Mut[/b]
-(replace the map and add the parameters you need)
-[*]<Enter>.
+[*]Subscribe to this mutator.
+[*]Launch KF2.
+[*]Open console (~) and start a game with the mutator:
+[code]open KF-BioticsLab?Game=KFGameContent.KFGameInfo_Survival?Difficulty=3?GameLength=2?Mutator=StartWave.Mut[/code]
+(replace the map and set/add the parameters you need)
 [/olist]
 
-[h1]Usage (server)[/h1]
-[b]Note:[/b] [i]If you don't understand what is written here, read the article [url=https://wiki.killingfloor2.com/index.php?title=Dedicated_Server_(Killing_Floor_2)][u]Dedicated Server (KF2 wiki)[/u][/url] before following these instructions.[/i]
+[h1]🖥️ Usage (server)[/h1]
+[b]Note:[/b] [i]If this is unclear, first read: [url=https://wiki.killingfloor2.com/index.php?title=Dedicated_Server_(Killing_Floor_2)][u]Dedicated Server Guide (KF2 wiki)[/u][/url][/i]
 [olist]
-[*]Open your [b]PCServer-KFEngine.ini[/b] / [b]LinuxServer-KFEngine.ini[/b];
-[*]Find the [b][IpDrv.TcpNetDriver][/b] section and make sure that there is a line (add if not):
-[b]DownloadManagers=OnlineSubsystemSteamworks.SteamWorkshopDownload[/b]
-❗️ If there are several [b]DownloadManagers=[/b] then the line above should be the first ❗️
+[*]Open [b]PCServer-KFEngine.ini[/b] / [b]LinuxServer-KFEngine.ini[/b].
+[*]Find [b][IpDrv.TcpNetDriver][/b] section and ensure line exists (add if missing):
+[code]DownloadManagers=OnlineSubsystemSteamworks.SteamWorkshopDownload[/code]
+(If there are several [b]DownloadManagers[/b] then the line above should be the first)
 [*]Add the following string to the [b][OnlineSubsystemSteamworks.KFWorkshopSteamworks][/b] section (create one if it doesn't exist):
-[b]ServerSubscribedWorkshopItems=2521731447[/b]
-[*]Start the server and wait while the mutator is downloading;
-[*]Add mutator (with parameters you need) to server start parameters: [b]?Mutator=StartWave.Mut[/b] and restart the server.
+[code]ServerSubscribedWorkshopItems=2521731447[/code]
+[*]Start server and wait for mutator download.
+[*]When the download is complete, stop the server.
+[*]Add mutator (with parameters you need) to server start parameters:
+[code]?Mutator=StartWave.Mut[/code]
+[*]Start the server.
 [/olist]
 
-[h1]Mutator setup[/h1]
+[h1]⚙️ Mutator setup (KFStartWave.ini)[/h1]
 The parameters below can be used as parameters in the startup line.
 But You can use a config if you don't want to specify parameters in the startup line:
 Create a file [b]KFGame/Config/KFStartWave.ini[/b] and copy this text into it:
@@ -86,21 +88,31 @@ mutate setwave 3       // identical to the above (the last parameter defaults to
 
 You can jump forwards or backwards between waves (e.g. from 5 -> 2 -> 8 -> 3, etc.)
 
-[h1]If not working[/h1]
-Older versions of SetWave have the same file names - this can cause conflicts if you subscribe to them. Therefore:
-1. Check your subscriptions. If you are subscribed to old versions of the mutator, cancel them.
-2. Clear the cache (the game doesn't clear it). It's here:
+[h1]🐞 If not working[/h1]
+Older versions of StartWave have the same file names - this can cause conflicts if you subscribe to them. Therefore:
+[olist]
+[*]Check your subscriptions. If you are subscribed to old versions of the mutator, cancel them.
+[*]Clear the cache, it's here:
+[b]Client:[/b]
 [code]
-Client:
 C:\Users\<YOUR_USERNAME>\Documents\My Games\KillingFloor2\KFGame\Cache\
-
-Server:
+[/code]
+[b]Server:[/b]
+[code]
 <KF2_DIR>/Binaries/Win64/steamapps/workshop/content/232090/
 <KF2_DIR>/KFGame/Cache/
 [/code]
-If it’s not a problem for you to download all subscriptions again, you can simply clear this folder(s). Your subscriptions are downloaded the next time you start the game/server.
-If you do not want to download the subscriptions again, delete only those folders that contain SetWave.u file.
-3. Try starting the game/server again.
+[*]Try starting the game/server again.
+[/olist]
 
-[h1]Sources[/h1]
+[h1]🌍 Credits[/h1]
+[list]
+[*][url=https://steamcommunity.com/profiles/76561198021230296]Pharrahnox[/url] - StartWave.
+[/list]
+
+[h1]☑️ Status: Completed[/h1]
+✔️ The mutator works with the current version of the game (v1150) and I have implemented everything I planned.
+⛔️ Development has stopped: I no longer have the time or motivation to maintain this mod. No further updates or bug fixes are planned.
+
+[h1]📜 Sources[/h1]
 [url=https://github.com/GenZmeY/KF2-StartWave]https://github.com/GenZmeY/KF2-StartWave[/url] [b](GNU GPLv3)[/b]
