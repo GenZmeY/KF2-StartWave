@@ -1,12 +1,12 @@
-[img]https://img.shields.io/static/v1?logo=GitHub&labelColor=gray&color=blue&logoColor=white&label=&message=Open Source[/img] [img]https://img.shields.io/github/license/GenZmeY/KF2-StartWave[/img] [img]https://img.shields.io/steam/subscriptions/2521731447[/img] [img]https://img.shields.io/steam/favorites/2521731447[/img] [img]https://img.shields.io/steam/update-date/2521731447[/img] [url=https://steamcommunity.com/sharedfiles/filedetails/changelog/2521731447][img]https://img.shields.io/github/v/tag/GenZmeY/KF2-StartWave[/img][/url]
+[img]https://img.shields.io/static/v1?logo=GitHub&labelColor=gray&color=blue&logoColor=white&label=&message=Open Source[/img] [img]https://img.shields.io/github/license/GenZmeY/KF2-StartWave[/img] [img]https://img.shields.io/steam/favorites/2521731447[/img] [img]https://img.shields.io/steam/update-date/2521731447[/img] [url=https://steamcommunity.com/sharedfiles/filedetails/changelog/2521731447][img]https://img.shields.io/github/v/tag/GenZmeY/KF2-StartWave[/img][/url]
 
 [h1]📋 Description:[/h1]
 This is the same as [url=https://steamcommunity.com/sharedfiles/filedetails/?id=1417081496]Pharrahnox's StartWave[/url], but with some fixes:
 [olist]
-[*] fixed starting Dosh for Endless mode;
-[*] fixed difficulty setting when changing wave;
-[*] optimized boss replacement: now it always works successfully and quickly;
-[*] players no longer need to download StartWave when connecting to a server.
+[*] Fixed starting Dosh for Endless mode
+[*] Fixed difficulty setting when changing wave
+[*] Optimized boss replacement: now it always works successfully and quickly
+[*] Players no longer need to download StartWave when connecting to a server
 [/olist]
 
 A utility mod that allows users to specify the starting wave and the boss that will spawn. Additionally, users can jump between waves during the match with a console command (mutate setwave, see below).
@@ -107,7 +107,7 @@ C:\Users\<YOUR_USERNAME>\Documents\My Games\KillingFloor2\KFGame\Cache\
 
 [h1]🌍 Credits[/h1]
 [list]
-[*][url=https://steamcommunity.com/profiles/76561198021230296]Pharrahnox[/url] - StartWave.
+[*][url=https://steamcommunity.com/profiles/76561198021230296]Pharrahnox[/url] - StartWave creator.
 [/list]
 
 [h1]☑️ Status: Completed[/h1]
@@ -115,4 +115,4 @@ C:\Users\<YOUR_USERNAME>\Documents\My Games\KillingFloor2\KFGame\Cache\
 ⛔️ Development has stopped: I no longer have the time or motivation to maintain this mod. No further updates or bug fixes are planned.
 
 [h1]📜 Sources[/h1]
-[url=https://github.com/GenZmeY/KF2-StartWave]https://github.com/GenZmeY/KF2-StartWave[/url] [b](GNU GPLv3)[/b]
+https://github.com/GenZmeY/KF2-StartWave [b](GPL-3.0-or-later)[/b]
